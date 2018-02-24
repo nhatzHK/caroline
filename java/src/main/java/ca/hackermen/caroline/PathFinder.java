@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 public class PathFinder {
 
-	Position exit;
-	Position player;
 	ArrayList<Position> coins = new ArrayList<> ();
 	ArrayList<Position> path  = new ArrayList<> ();
-	Position[][] map;
-
-	public PathFinder (char[][] map) {
-		posCoins ();
-		posExit ();
-		posPlayer ();
+	Position            exit;
+	Position            player;
+        char [][] mapMatrice;
+	public PathFinder(char[][] map) {
+            
+                mapMatrice=map;
+		posCoins(coins);
+		posExit();
+		posPlayer();
 	}
 
 	/**
@@ -32,6 +33,19 @@ public class PathFinder {
 	 */
 	public Position posExit () {
 		Position position = new Position (0, 0);
+                
+                for (int i = 0; i <mapMatrice.length; i++)
+                {
+                    for (int j = 0; j <mapMatrice[i].length; j++) {
+                        
+                        if(mapMatrice[i][j]=='S')
+                        {
+                            position.x=j;
+                            position.y=i;
+                        }
+                    }
+            }
+
 
 		return position;
 	}
