@@ -11,6 +11,6 @@
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="TerminalProjectOptionsProvider">
-    <option name="myStartingDirectory" value="$USER_HOME$/Code/Java" />
+    <option name="myStartingDirectory" value="$PROJECT_DIR$/../../../Java" />
   </component>
 </project>
