@@ -6,7 +6,7 @@ package ca.umontreal.iro.hackathon.loderunner;
 public class Runner extends BasicRunner {
 
     // TODO : Remplacer ceci par votre clé secrète
-    public static final String ROOM = "";
+    public static final String ROOM = "caroline18";
 
     /* Utilisez cette variable pour choisir le niveau de départ
      *
