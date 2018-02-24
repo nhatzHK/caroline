@@ -1,7 +1,7 @@
 package ca.hackermen.caroline;
 
 public class Position {
-	int x, y, z;
+	public int x, y, z;
 	char c = ' ';
 
 	public Position(int x, int y) {
