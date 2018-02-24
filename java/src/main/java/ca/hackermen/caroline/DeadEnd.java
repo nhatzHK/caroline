@@ -38,4 +38,25 @@ public class DeadEnd {
     return matDE;
     }
     
+    public boolean [][] mergeArea(boolean area1 [][],boolean area2[][]){
+        
+        boolean area3 [][] = new boolean [area1.length][area1[0].length];
+        
+        for (int i = 0; i < area1.length; i++) {
+            
+            for (int j = 0; j < area1[j].length; j++) {
+                
+                if (area1[i][j] == true || area2[i][j] == true) {
+                    
+                    area3[i][j] = true;
+                    
+                }
+                
+            }
+            
+        }
+        
+        return area3;
+    }
+    
 }
