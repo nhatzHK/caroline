@@ -18,14 +18,14 @@ public class PathFinder {
 	 * Remplit l'array list avec les positions des coins
 	 * @param coins
 	 */
-	public void posCoins(ArrayList<Position> coins, String [][] mat) {
+	public void posCoins(ArrayList<Position> coins, char [][] mat) {
             
 
             for (int i = 0; i < mat.length; i++) {
              
                 for (int j = 0; j < mat[i].length; j++) {
                     
-                    if(mat[i][j].equals("$")){
+                    if(mat[i][j] == '$'){
                         
                         coins.add(new Position(i, j));
                         
