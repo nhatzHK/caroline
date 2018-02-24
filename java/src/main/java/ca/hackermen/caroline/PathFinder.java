@@ -3,7 +3,7 @@ package ca.hackermen.caroline;
 import java.util.ArrayList;
 
 public class PathFinder {
-
+  
 	ArrayList<Position> coins = new ArrayList<> ();
 	ArrayList<Position> path  = new ArrayList<> ();
 	Position            exit;
@@ -49,17 +49,36 @@ public class PathFinder {
 
 		return position;
 	}
+  
+      /**
+     * Return la position du player
+     *
+     * @return
+     */
+    public Position posPlayer() {
+        Position position = new Position(0, 0);
 
-	/**
-	 * Return la position du player
-	 *
-	 * @return
-	 */
-	public Position posPlayer () {
-		Position position = new Position (0, 0);
-
-		return position;
-	}
+        for (int i = 0; i < mapMatrice.length; i++) {
+            for (int j = 0; j < mapMatrice[i].length; j++) {
+                if(mapMatrice[i][j] == '&') {
+                    position.x = j;
+                    position.y = i;
+                }
+            }
+            
+        }
+        return position;
+    }
+    
+    
+    public Position getNextPos() {
+        Position pos;
+        
+        pos = path.get(0);
+        path.remove(0);
+        
+        return pos;
+    }
 
 	public void createPath () {
 		Position goal;
