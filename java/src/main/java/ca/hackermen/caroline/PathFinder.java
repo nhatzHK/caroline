@@ -8,7 +8,7 @@ public class PathFinder {
 	ArrayList<Position> coins;
 	int foundCoins = 0;
 
-	public PathFinder(String[][] map) {
+	public PathFinder(char[][] map) {
 		posCoins(coins,map);
 		posExit();
 		posPlayer();
