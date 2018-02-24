@@ -8,11 +8,12 @@ public class PathFinder {
 	ArrayList<Position> path  = new ArrayList<> ();
 	Position            exit;
 	Position            player;
-        char [][] mapMatrice;
-	public PathFinder(char[][] map) {
-            
-                mapMatrice=map;
-		posCoins(coins);
+	ArrayList<Position> coins;
+  char [][] mapMatrice;
+  
+	public PathFinder(String[][] map) {
+    mapMatrice=map;
+		posCoins(coins,map);
 		posExit();
 		posPlayer();
 	}
@@ -22,9 +23,24 @@ public class PathFinder {
 	 *
 	 * @param
 	 */
-	public void posCoins () {
+	public void posCoins(ArrayList<Position> coins, char [][] mat) {
+            
 
+            for (int i = 0; i < mat.length; i++) {
+             
+                for (int j = 0; j < mat[i].length; j++) {
+                    
+                    if(mat[i][j] == '$'){
+                        
+                        coins.add(new Position(i, j));
+                        
+                    }
+                    
+                }
+                
+            }
 	}
+        
 
 	/**
 	 * Return la position de la porte sur la map
