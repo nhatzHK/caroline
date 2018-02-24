@@ -6,7 +6,7 @@ package ca.umontreal.iro.hackathon.loderunner;
 public class Runner extends BasicRunner {
 
     // TODO : Remplacer ceci par votre clé secrète
-    public static final String ROOM = "caroline18";
+    public static final String ROOM = "caroline03";
 
     /* Utilisez cette variable pour choisir le niveau de départ
      *
@@ -23,7 +23,7 @@ public class Runner extends BasicRunner {
     public void start(String[] grid) {
         System.out.println("Nouveau niveau ! Grille initiale reçue :");
 
-        for (int i=0; i<grid.length; i++) {
+        for (int i = 0; i < grid.length; i++) {
             String ligne = grid[i];
 
             System.out.println(ligne);
