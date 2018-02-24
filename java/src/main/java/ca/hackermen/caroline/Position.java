@@ -2,6 +2,7 @@ package ca.hackermen.caroline;
 
 public class Position {
 	int x, y, z;
+	char c = ' ';
 
 	public Position(int x, int y) {
 		this(x, y, 0);
@@ -16,7 +17,7 @@ public class Position {
 	@Override
 	public boolean equals(Object p) {
 		Position pos = (Position) p;
-		return pos.x == x && pos.y == y && pos.z == z;
+		return pos.x == x && pos.y == y;
 	}
 
     public int getX() {
