@@ -94,10 +94,17 @@ public class PathFinder {
 		System.out.println ("Player: " + player.z);
 		System.out.println ("x - 1: " + mapMatrice[player.y][player.x - 1].z);
 
+		if (player.x > 0 && player.z - mapMatrice[player.y][player.x - 1].z ==
+		                    1) {
+			//player.x--;
+			return mapMatrice[player.y][player.x - 1];
 		}
 
 		if (player.x < mapMatrice[0].length - 1 &&
+		    player.z - mapMatrice[player.y][player.x + 1].z == 1)
 		{
+			//player.x++;
+			return mapMatrice[player.y][player.x + 1];
 		}
 
 		return null;
@@ -105,6 +112,7 @@ public class PathFinder {
 
 	public void createPath () {
 
+		clearZMap ();
 
 		path.clear ();
 
@@ -123,11 +131,14 @@ public class PathFinder {
 			}
 
 			if (foundPlayer (branches)) {
+				player.z = path.get (i).z + 1;
 				break;
 			} else {
 				path.addAll (branches);
 			}
 		}
+
+		goals.remove (goal);
 	}
 
 	/**
@@ -223,6 +234,43 @@ public class PathFinder {
 				}
 			}
 		}
+=======
+>>>>>>> master
+
+		return init.y == finale.y;
+//		boolean isOk = false;
+//		//mm ligne
+//		if (init.x == finale.x) {
+//			//vérifier si espace ou corde
+//			if (finale.c == ' ' || finale.c == '-' || finale.c == '$') {
+//				isOk = true;
+//			}
+//			//vérifier si non bloc
+//			else if (finale.c == '@' || finale.c == '#') {
+//				isOk = false;
+//			}
+//		}
+//		//mm colonne
+//		if (init.y == finale.y) {
+//			//finale est plus bas
+//			if (init.y > finale.y) {
+//				//ADD CODE TO FALL HERE...
+//			}
+//			//finale est plus haut
+//			else {
+//				//vérifier si espace ou corde
+//				if (init.c == 'H' &&
+//				    (finale.c == 'H' || finale.c == ' ' || finale.c == '$' ||
+//				     finale.c == '-'))
+//				{
+//					isOk = true;
+//				} else {
+//					isOk = false;
+//				}
+//			}
+//		}
+//
+//		return isOk;
 	}
 
 	public boolean foundPlayer (ArrayList<Position> branches) {
