@@ -1,21 +1,22 @@
 package ca.hackermen.caroline;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import static java.lang.Math.min;
 
 public class PathFinder {
-  
-	ArrayList<Position> coins = new ArrayList<> ();
-	ArrayList<Position> path  = new ArrayList<> ();
-	Position            exit;
-	Position            player;
-	ArrayList<Position> coins;
-  char [][] mapMatrice;
-  
-	public PathFinder(String[][] map) {
-    mapMatrice=map;
-		posCoins(coins,map);
-		posExit();
-		posPlayer();
+
+	ArrayList<Position> goals = new ArrayList<> ();
+
+	ArrayList<Position> path = new ArrayList<> ();
+	Position     player;
+	public Position[][] mapMatrice;
+
+	public PathFinder (char[][] map) {
+		mapMatrice = Position.createMap (map);
+		goals.add (posExit ());
+		goals.addAll (getGoals ());
+		player = posPlayer ();
 	}
 
 	/**
@@ -23,24 +24,19 @@ public class PathFinder {
 	 *
 	 * @param
 	 */
-	public void posCoins(ArrayList<Position> coins, char [][] mat) {
-            
+	public ArrayList<Position> getGoals () {
+		ArrayList<Position> gls = new ArrayList<> ();
+		for (int i = 0; i < mapMatrice.length; i++) {
+			for (int j = 0; j < mapMatrice[i].length; j++) {
+				if (mapMatrice[i][j].c == '$') {
+					gls.add (mapMatrice[i][j]);
+				}
+			}
+		}
 
-            for (int i = 0; i < mat.length; i++) {
-             
-                for (int j = 0; j < mat[i].length; j++) {
-                    
-                    if(mat[i][j] == '$'){
-                        
-                        coins.add(new Position(i, j));
-                        
-                    }
-                    
-                }
-                
-            }
+		return gls;
 	}
-        
+
 
 	/**
 	 * Return la position de la porte sur la map
@@ -48,72 +44,105 @@ public class PathFinder {
 	 * @return
 	 */
 	public Position posExit () {
-		Position position = new Position (0, 0);
-                
-                for (int i = 0; i <mapMatrice.length; i++)
-                {
-                    for (int j = 0; j <mapMatrice[i].length; j++) {
-                        
-                        if(mapMatrice[i][j]=='S')
-                        {
-                            position.x=j;
-                            position.y=i;
-                        }
-                    }
-            }
+		Position exit = null;
+		boolean done = false;
 
+		for (int i = 0; i < mapMatrice.length; i++) {
+			for (int j = 0; j < mapMatrice[i].length; j++) {
+				if (mapMatrice[i][j].c == 'S') {
+					exit =  mapMatrice[i][j];
+					done = true;
+					break;
+				}
+			}
 
-		return position;
+			if (done) {
+				break;
+			}
+		}
+
+		return exit;
 	}
-  
-      /**
-     * Return la position du player
-     *
-     * @return
-     */
-    public Position posPlayer() {
-        Position position = new Position(0, 0);
 
-        for (int i = 0; i < mapMatrice.length; i++) {
-            for (int j = 0; j < mapMatrice[i].length; j++) {
-                if(mapMatrice[i][j] == '&') {
-                    position.x = j;
-                    position.y = i;
-                }
-            }
-            
-        }
-        return position;
-    }
-    
-    
-    public Position getNextPos() {
-        Position pos;
-        
-        pos = path.get(0);
-        path.remove(0);
-        
-        return pos;
-    }
+	/**
+	 * Return la position du player
+	 *
+	 * @return
+	 */
+	public Position posPlayer () {
+		boolean done = false;
+		Position player = null;
+
+		for (int i = 0; i < mapMatrice.length; i++) {
+			for (int j = 0; j < mapMatrice[i].length; j++) {
+				if (mapMatrice[i][j].c == '&') {
+					player = mapMatrice[i][j];
+					done = true;
+					break;
+				}
+			}
+
+			if (done) {
+				break;
+			}
+		}
+
+		return player;
+	}
+
+	public Position getNextPos (int x, int y) {
+		player = mapMatrice[x][y];
+		System.out.println ("Player: " + player.z);
+		System.out.println ("x - 1: " + mapMatrice[player.y][player.x - 1].z);
+
+		if (player.x > 0 && mapMatrice[player.y][player.x - 1].z == 1)
+		{
+			player.x++;
+			return mapMatrice[player.y][player.x];
+		}
+
+		if (player.x < mapMatrice[0].length - 1 &&
+		    mapMatrice[player.y][player.x + 1].z - player.z == 1)
+		{
+			player.x--;
+			return mapMatrice[player.y][player.x];
+		}
+
+		return null;
+	}
 
 	public void createPath () {
-		Position goal;
+
+		//clearZ();
+
 		path.clear ();
-		path.add (player);
+
+
+		Position goal = goals.get (goals.size () - 1);
+		goal.z = 0;
+		path.add (goal);
+		System.out.println ("Goal: " + goal.x + ", " + goal.y + ", " + goal.z);
+
 		for (int i = 0; i < path.size (); ++ i) {
-			ArrayList<Position> branches = getBranches (player);
-			goal = jackPot(branches);
-			if (goal != null) {
-				path.add (goal);
+			ArrayList<Position> branches = getBranches (path.get (i));
+
+			for (Position p: branches) {
+				System.out.println (p.x + ", " + p.y + ", " + p.z);
+			}
+
+			if (foundPlayer (branches)) {
 				break;
 			} else {
 				path.addAll (branches);
 			}
+		}
 
-			// FIXME: debug, to remove
-			if (path.size () > 5) {
-				break;
+		for (int i = 0; i < mapMatrice.length; ++i) {
+			for (int j = 0; j < mapMatrice[i].length; ++j) {
+				System.out.print (mapMatrice[i][j].z != Integer.MAX_VALUE ?
+				                  mapMatrice[i][j].z + " " : "e ");
 			}
+			System.out.println ();
 		}
 	}
 
@@ -121,59 +150,64 @@ public class PathFinder {
 	 * Renovie une liste des directions possibles a partir de la position
 	 * actuelle
 	 *
-	 * @param p
+	 * @param current
 	 *
 	 * @return
 	 */
-	public ArrayList<Position> getBranches (Position p) {
+	public ArrayList<Position> getBranches (Position current) {
 
 		ArrayList<Position> around = new ArrayList<> ();
-		around.add (new Position (p.x + 1, p.y, p.z));
-		around.add (p);
-
-		if (! (p.x + 1 > map.length)) {
-			around.add (new Position (p.x + 1, p.y, p.z + 1));
+		if (current.y + 1 < mapMatrice.length) {
+			around.add (mapMatrice[current.y + 1][current.x]);
+			around.get (around.size () - 1).z = current.z + 1;
 		}
 
-		if (! (p.x - 1 < 0)) {
-			around.add (new Position (p.x - 1, p.y, p.z + 1));
+		if (current.y - 1 > 0) {
+			around.add (mapMatrice[current.y - 1][current.x]);
+			around.get (around.size () - 1).z = current.z + 1;
 		}
 
-		if (! (p.y + 1 > map.length)) {
-			around.add (new Position (p.x, p.y + 1, p.z + 1));
+		if (current.x + 1 < mapMatrice[0].length) {
+			around.add (mapMatrice[current.y][current.x + 1]);
+			around.get (around.size () - 1).z = current.z + 1;
 		}
 
-		if (! (p.y - 1 < 0)) {
-			around.add (new Position (p.x, p.y - 1, p.z + 1));
+		if (current.x - 1 > 0) {
+			around.add (mapMatrice[current.y][current.x - 1]);
+			around.get (around.size () - 1).z = current.z + 1;
 		}
 
-		ArrayList<Integer> toRemoveAround = new ArrayList<> ();
+		for (Position pos: path) {
+			Iterator<Position> itPos = around.iterator ();
+			//boolean done = false;
 
-		for (int i = 0; i < path.size (); ++ i) {
-			for (int j = 0; j < around.size (); ++ j) {
-				if (around.get (j).equals (path.get (i))) {
-					if (around.get (j).z < path.get (i).z) {
-						toRemoveAround.add (j);
-					} else {
-						path.get (i).z = around.get (j).z;
-					}
+			while (itPos.hasNext ()) {
+				Position p = itPos.next ();
+				if (! validMove (current, p)) {
+					itPos.remove ();
+				} else if (p.equals (pos)) {
+					mapMatrice[pos.y][pos.x].z = min(pos.z, p.z);
+					itPos.remove ();
 				}
 			}
-		}
-
-		for (int i = 0; i < toRemoveAround.size (); ++ i) {
-			around.remove (toRemoveAround.get (i) - i);
 		}
 
 		return around;
 	}
 
-	/**
-	 * Retourne la premiere case dans la liste qui contient un coin ou une porte
-	 * @param p
-	 * @return
-	 */
-	public Position jackPot(ArrayList<Position> p) {
-		return null;
+	public boolean validMove (Position a, Position b) {
+		return a.y == b.y;
+	}
+
+	public boolean foundPlayer (ArrayList<Position> branches) {
+		System.out.println ("Called");
+		for (Position branch : branches) {
+			if (player.x == branch.x && player.y == branch.y) {
+				System.out.println ("found");
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

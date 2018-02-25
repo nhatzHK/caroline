@@ -1,17 +1,14 @@
 package ca.hackermen.caroline;
 
 public class Position {
-	int x, y, z;
-	char c = ' ';
+	public int x, y, z;
+	public char c;
 
-	public Position(int x, int y) {
-		this(x, y, 0);
-	}
-
-	public Position(int x, int y, int z) {
+	public Position(int x, int y, int z, char c) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.c = c;
 	}
 
 	@Override
@@ -20,32 +17,15 @@ public class Position {
 		return pos.x == x && pos.y == y;
 	}
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setZ(int z) {
-        this.z = z;
-    }
-    
-    
-        
-        
+	public static Position[][] createMap(char[][] symbols) {
+		Position[][] map = new Position[symbols.length][symbols[0].length];
+		for (int i = 0; i < symbols.length; ++i) {
+			for (int j = 0; j < symbols[0].length; ++j) {
+				map[i][j] = new Position (j, i, Integer.MAX_VALUE,
+				                          symbols[i][j]);
+			}
+		}
+		return map;
+	}
         
 }
