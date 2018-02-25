@@ -7,7 +7,7 @@ import ca.hackermen.caroline.sim.Carunner;
 /**
  *
  */
-public class Runner extends Carunner {
+public class Runner extends BasicRunner {
 
 	// TODO : Remplacer ceci par votre clé secrète
 	public static final String ROOM = "caroline18";
@@ -23,8 +23,8 @@ public class Runner extends Carunner {
 	public char[][]   mapMatrice;
 
 	public Runner () {
-		//super (ROOM, START_LEVEL);
-		super(START_LEVEL);
+		super (ROOM, START_LEVEL);
+		//super(START_LEVEL);
 	}
 
 	@Override public void start (String[] grid) {
