@@ -90,7 +90,7 @@ public class PathFinder {
 	}
 
 	public Position getNextPos (int x, int y) {
-		player = mapMatrice[x][y];
+		player = mapMatrice[y][x];
 		System.out.println ("Player: " + player.z);
 		System.out.println ("x - 1: " + mapMatrice[player.y][player.x - 1].z);
 
