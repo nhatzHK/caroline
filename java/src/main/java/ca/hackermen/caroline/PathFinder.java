@@ -157,9 +157,17 @@ public class PathFinder {
 	public ArrayList<Position> getBranches (Position current) {
 
 		ArrayList<Position> around = new ArrayList<> ();
+<<<<<<< HEAD
 		if (current.y + 1 < mapMatrice.length) {
 			around.add (mapMatrice[current.y + 1][current.x]);
 			around.get (around.size () - 1).z = current.z + 1;
+=======
+		around.add (new Position (p.x + 1, p.y, p.z));
+		around.add (p);
+
+		if (! (p.x + 1 > mapMatrice.length)) {
+			around.add (new Position (p.x + 1, p.y, p.z + 1));
+>>>>>>> 7af4d6951b396b4afef74c6a6acbf30708b51d57
 		}
 
 		if (current.y - 1 > 0) {
@@ -167,9 +175,14 @@ public class PathFinder {
 			around.get (around.size () - 1).z = current.z + 1;
 		}
 
+<<<<<<< HEAD
 		if (current.x + 1 < mapMatrice[0].length) {
 			around.add (mapMatrice[current.y][current.x + 1]);
 			around.get (around.size () - 1).z = current.z + 1;
+=======
+		if (! (p.y + 1 > mapMatrice.length)) {
+			around.add (new Position (p.x, p.y + 1, p.z + 1));
+>>>>>>> 7af4d6951b396b4afef74c6a6acbf30708b51d57
 		}
 
 		if (current.x - 1 > 0) {
@@ -210,4 +223,51 @@ public class PathFinder {
 
 		return false;
 	}
+        
+        public void clearZMap() {
+            for (int i = 0; i < mapMatrice.length; i++) {
+                for (int j = 0; j < mapMatrice[i].length; j++) {
+                    mapMatrice[i][j].z = Integer.MAX_VALUE;
+                }
+            }
+        }
+        
+        public boolean validMove(Position init, Position finale) {
+            boolean isOk = false;
+            
+            //mm ligne
+            if(init.x == finale.x) {
+                //vérifier si espace ou corde
+                if (finale.c == ' ' || finale.c == '-' || finale.c == '$') {
+                    isOk = true;
+                }
+                //vérifier si non bloc
+                else if(finale.c == '@' || finale.c == '#') {
+                    isOk = false;
+                }
+                
+            }
+            //mm colonne
+            if(init.y == finale.y) {
+                //finale est plus bas
+                if(init.y > finale.y) 
+                {
+                    //ADD CODE TO FALL HERE...
+                }
+                //finale est plus haut
+                else    
+                {
+                    //vérifier si espace ou corde
+                    if (init.c == 'H' && (finale.c == 'H' || finale.c == ' ' || finale.c == '$' || finale.c == '-')) {
+                        isOk = true;
+                    }
+                    else {
+                        isOk = false;
+                    }
+                }
+                
+            }
+            
+            return isOk;
+        }
 }
