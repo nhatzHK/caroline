@@ -94,16 +94,10 @@ public class PathFinder {
 		System.out.println ("Player: " + player.z);
 		System.out.println ("x - 1: " + mapMatrice[player.y][player.x - 1].z);
 
-		if (player.x > 0 && mapMatrice[player.y][player.x - 1].z == 1) {
-			player.x++;
-			return mapMatrice[player.y][player.x];
 		}
 
 		if (player.x < mapMatrice[0].length - 1 &&
-		    mapMatrice[player.y][player.x + 1].z - player.z == 1)
 		{
-			player.x--;
-			return mapMatrice[player.y][player.x];
 		}
 
 		return null;
@@ -111,7 +105,6 @@ public class PathFinder {
 
 	public void createPath () {
 
-		//clearZ();
 
 		path.clear ();
 
@@ -194,6 +187,7 @@ public class PathFinder {
 	}
 
 	public boolean validMove (Position init, Position finale) {
+<<<<<<< HEAD
 		boolean isOk = false;
 		//mm ligne
 		if (init.x == finale.x) {
@@ -229,8 +223,6 @@ public class PathFinder {
 				}
 			}
 		}
-
-		return isOk;
 	}
 
 	public boolean foundPlayer (ArrayList<Position> branches) {
