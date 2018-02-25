@@ -8,6 +8,7 @@ public class PathFinder {
     Position exit;
     Position player;
     ArrayList<Position> coins;
+    ArrayList<Position> path;
     int foundCoins = 0;
 
     public PathFinder(char[][] map) {
@@ -58,5 +59,15 @@ public class PathFinder {
             
         }
         return position;
+    }
+    
+    
+    public Position getNextPos() {
+        Position pos;
+        
+        pos = path.get(0);
+        path.remove(0);
+        
+        return pos;
     }
 }
