@@ -176,6 +176,14 @@ public class PathFinder {
 		return null;
 	}
         
+        public void clearZMap() {
+            for (int i = 0; i < mapMatrice.length; i++) {
+                for (int j = 0; j < mapMatrice[i].length; j++) {
+                    mapMatrice[i][j].z = Integer.MAX_VALUE;
+                }
+            }
+        }
+        
         public boolean validMove(Position init, Position finale) {
             boolean isOk = false;
             
