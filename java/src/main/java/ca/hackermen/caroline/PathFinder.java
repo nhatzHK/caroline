@@ -90,12 +90,28 @@ public class PathFinder {
 	}
 
 	public Position getNextPos (int x, int y) {
+
 		player = mapMatrice[y][x];
+
+		if ((mapMatrice[player.y][player.x - 1].c == '@' ||
+		     mapMatrice[player.y][player.x - 1].c == '#') &&
+		    player.y == mapMatrice[player.y][player.x - 1].y)
+		{
+			return mapMatrice[player.y + 1][player.x];
+		}
+		if ((mapMatrice[player.y][player.x + 1].c == '@' ||
+		     mapMatrice[player.y][player.x + 1].c == '#') &&
+		    player.y == mapMatrice[player.y][player.x + 1].y)
+		{
+			return mapMatrice[player.y + 1][player.x];
+		}
+
 		System.out.println ("Player: " + player.z);
 		System.out.println ("x - 1: " + mapMatrice[player.y][player.x - 1].z);
 
-		if (player.x > 0 && player.z - mapMatrice[player.y][player.x - 1].z ==
-		                    1) {
+		if (player.x > 0 &&
+		    player.z - mapMatrice[player.y][player.x - 1].z == 1)
+		{
 			//player.x--;
 			return mapMatrice[player.y][player.x - 1];
 		}
@@ -105,6 +121,18 @@ public class PathFinder {
 		{
 			//player.x++;
 			return mapMatrice[player.y][player.x + 1];
+		}
+
+		if (player.y > 0 &&
+		    player.z - mapMatrice[player.y - 1][player.x].z == 1)
+		{
+			return mapMatrice[player.y + 1][player.x];
+		}
+
+		if (player.y < mapMatrice.length - 1 &&
+		    player.z - mapMatrice[player.y + 1][player.x].z == 1)
+		{
+			return mapMatrice[player.y - 1][player.x];
 		}
 
 		return null;
@@ -138,6 +166,9 @@ public class PathFinder {
 			}
 		}
 
+		if (player.z == Integer.MAX_VALUE) {
+			System.out.println ("call the hecking police goddammit");
+		}
 		goals.remove (goal);
 	}
 
@@ -154,29 +185,32 @@ public class PathFinder {
 		ArrayList<Position> around = new ArrayList<> ();
 		if (current.y + 1 < mapMatrice.length) {
 			around.add (mapMatrice[current.y + 1][current.x]);
-			around.get (around.size () - 1).z = min(current.z + 1,
-			                                        mapMatrice[current.y +
-			                                                   1][current.x].z);
+			around.get (around.size () - 1).z = min (current.z + 1,
+			                                         mapMatrice[current.y +
+			                                                    1][current.x]
+				                                         .z);
 		}
 
 		if (current.y - 1 > 0) {
 			around.add (mapMatrice[current.y - 1][current.x]);
-			around.get (around.size () - 1).z = min(current.z + 1,
-			                                        mapMatrice[current.y -
-			                                                   1][current.x].z);
+			around.get (around.size () - 1).z = min (current.z + 1,
+			                                         mapMatrice[current.y -
+			                                                    1][current.x]
+				                                         .z);
 		}
 
 		if (current.x + 1 < mapMatrice[0].length) {
 			around.add (mapMatrice[current.y][current.x + 1]);
-			around.get (around.size () - 1).z = min(current.z + 1,
-			                                        mapMatrice[current.y][current.x + 1].z);
+			around.get (around.size () - 1).z = min (current.z + 1,
+			                                         mapMatrice[current.y][
+				                                         current.x + 1].z);
 		}
 
 		if (current.x - 1 > 0) {
 			around.add (mapMatrice[current.y][current.x - 1]);
-			around.get (around.size () - 1).z = min(current.z + 1,
-			                                        mapMatrice[current
-				                                        .y][current.x - 1].z);
+			around.get (around.size () - 1).z = min (current.z + 1,
+			                                         mapMatrice[current.y][
+				                                         current.x - 1].z);
 		}
 
 		for (Position pos : path) {
@@ -199,40 +233,85 @@ public class PathFinder {
 
 	public boolean validMove (Position init, Position finale) {
 
-		return init.y == finale.y;
-//		boolean isOk = false;
-//		//mm ligne
-//		if (init.x == finale.x) {
-//			//vérifier si espace ou corde
-//			if (finale.c == ' ' || finale.c == '-' || finale.c == '$') {
-//				isOk = true;
-//			}
-//			//vérifier si non bloc
-//			else if (finale.c == '@' || finale.c == '#') {
-//				isOk = false;
-//			}
-//		}
-//		//mm colonne
-//		if (init.y == finale.y) {
-//			//finale est plus bas
-//			if (init.y > finale.y) {
-//				//ADD CODE TO FALL HERE...
-//			}
-//			//finale est plus haut
-//			else {
-//				//vérifier si espace ou corde
-//				if (init.c == 'H' &&
-//				    (finale.c == 'H' || finale.c == ' ' || finale.c == '$' ||
-//				     finale.c == '-'))
-//				{
-//					isOk = true;
-//				} else {
-//					isOk = false;
-//				}
-//			}
-//		}
-//
-//		return isOk;
+		/**
+		 * si init.x == finale.x {
+		 *  if(init.y > finale.y && init.c == 'H') {
+		 *      true, monte
+		 *  } else if (init.y < finale.y && (finale.c == ' ' || finale.c ==
+		 *  'H') {
+		 *      true, descends
+		 *  } else {
+		 *      false
+		 *  }
+		 * } sinon si init.y == finale.y {
+		 *  if (init.x < finale.x && (finale.c != '@' && finale.c != '#') {
+		 *      true, gauche
+		 *  } else if (init.x > finale.x && (finale.c != '@' && finale.c !=
+		 *  '#') {
+		 *      true, droite
+		 *  } else {
+		 *      false
+		 *  }
+		 * } sinon {
+		 *      return false
+		 * }
+		 */
+
+		if (init.x == finale.x) {
+
+			if (init.y > finale.y && init.c == 'H') {
+				return true;
+			} else if (init.y < finale.y && finale.c == 'H')
+			{
+				return true;
+			} else {
+				return false;
+			}
+		} else if (init.y == finale.y) {
+			if (finale.c != '@' && finale.c != '#') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+		//return init.y == finale.y || init.x == finale.x;
+		//		boolean isOk = false;
+		//		//mm ligne
+		//		if (init.y == finale.y) {
+		//			//vérifier si espace ou corde
+		//			if (finale.c == ' ' || finale.c == '-' || finale.c ==
+		// '$') {
+		//				isOk = true;
+		//			}
+		//			//vérifier si non bloc
+		//			else if (finale.c == '@' || finale.c == '#') {
+		//				isOk = false;
+		//			}
+		//		}
+		//		//mm colonne
+		//		if (init.x == finale.x) {
+		//			//finale est plus bas
+		//			if (init.x > finale.x) {
+		//				//ADD CODE TO FALL HERE...
+		//			}
+		//			//finale est plus haut
+		//			else {
+		//				//vérifier si espace ou corde
+		//				if (init.c == 'H' &&
+		//				    (finale.c == 'H' || finale.c == ' ' || finale.c ==
+		// '$' ||
+		//				     finale.c == '-'))
+		//				{
+		//					isOk = true;
+		//				} else {
+		//					isOk = false;
+		//				}
+		//			}
+		//		}
+		//
+		//		return isOk;
 	}
 
 	public boolean foundPlayer (ArrayList<Position> branches) {

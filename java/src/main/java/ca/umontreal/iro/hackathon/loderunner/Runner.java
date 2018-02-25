@@ -10,7 +10,7 @@ import ca.hackermen.caroline.sim.Carunner;
 public class Runner extends BasicRunner {
 
 	// TODO : Remplacer ceci par votre clé secrète
-	public static final String ROOM = "caroline18";
+	public static final String ROOM = "caroline188";
 
 	/* Utilisez cette variable pour choisir le niveau de départ
 	 *
@@ -22,6 +22,7 @@ public class Runner extends BasicRunner {
 	public PathFinder pathFinder;
 	public char[][]   mapMatrice;
 
+	Position position;
 	public Runner () {
 		super (ROOM, START_LEVEL);
 		//super(START_LEVEL);
@@ -63,6 +64,12 @@ public class Runner extends BasicRunner {
 		if (nextMove == null) {
 			pathFinder.createPath ();
 			nextMove = pathFinder.getNextPos (x, y);
+		}
+
+		if (position == null) {
+			position = nextMove;
+		} else if (position.equals (nextMove)) {
+			System.out.println ("FBI: PUT YOUR HANDS IN THE AIR");
 		}
 
 		if (x < nextMove.x) {
