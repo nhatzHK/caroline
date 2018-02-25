@@ -16,7 +16,7 @@ public enum Levels {
 					"                             ",
 					"                             ",
 					"                             ",
-					"P    $         $           S ",
+					"&    $         $           $ ",
 					"#############################"
 				};
 		}
@@ -27,7 +27,7 @@ public enum Levels {
 	public static Carunner.Pos getPlayerInit(int i) {
 		switch (i) {
 			case 1:
-				return new Carunner.Pos (0, 1);
+				return new Carunner.Pos (0, 4);
 		}
 
 		return null;

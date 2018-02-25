@@ -8,7 +8,7 @@ public class PathFinder {
 
 	public Position[][] mapMatrice;
 	ArrayList<Position> goals = new ArrayList<> ();
-	ArrayList<Position> path = new ArrayList<> ();
+	ArrayList<Position> path  = new ArrayList<> ();
 	Position player;
 
 	public PathFinder (char[][] map) {
@@ -122,6 +122,7 @@ public class PathFinder {
 		System.out.println ("Goal: " + goal.x + ", " + goal.y + ", " + goal.z);
 
 		for (int i = 0; i < path.size (); ++ i) {
+			printMap ();
 			ArrayList<Position> branches = getBranches (path.get (i));
 
 			for (Position p : branches) {
@@ -133,15 +134,6 @@ public class PathFinder {
 			} else {
 				path.addAll (branches);
 			}
-		}
-
-		for (int i = 0; i < mapMatrice.length; ++ i) {
-			for (int j = 0; j < mapMatrice[i].length; ++ j) {
-				System.out.print (mapMatrice[i][j].z != Integer.MAX_VALUE ?
-				                  mapMatrice[i][j].z + " " :
-				                  "e ");
-			}
-			System.out.println ();
 		}
 	}
 
@@ -158,22 +150,29 @@ public class PathFinder {
 		ArrayList<Position> around = new ArrayList<> ();
 		if (current.y + 1 < mapMatrice.length) {
 			around.add (mapMatrice[current.y + 1][current.x]);
-			around.get (around.size () - 1).z = current.z + 1;
+			around.get (around.size () - 1).z = min(current.z + 1,
+			                                        mapMatrice[current.y +
+			                                                   1][current.x].z);
 		}
 
 		if (current.y - 1 > 0) {
 			around.add (mapMatrice[current.y - 1][current.x]);
-			around.get (around.size () - 1).z = current.z + 1;
+			around.get (around.size () - 1).z = min(current.z + 1,
+			                                        mapMatrice[current.y -
+			                                                   1][current.x].z);
 		}
 
 		if (current.x + 1 < mapMatrice[0].length) {
 			around.add (mapMatrice[current.y][current.x + 1]);
-			around.get (around.size () - 1).z = current.z + 1;
+			around.get (around.size () - 1).z = min(current.z + 1,
+			                                        mapMatrice[current.y][current.x + 1].z);
 		}
 
 		if (current.x - 1 > 0) {
 			around.add (mapMatrice[current.y][current.x - 1]);
-			around.get (around.size () - 1).z = current.z + 1;
+			around.get (around.size () - 1).z = min(current.z + 1,
+			                                        mapMatrice[current
+				                                        .y][current.x - 1].z);
 		}
 
 		for (Position pos : path) {
@@ -196,7 +195,6 @@ public class PathFinder {
 
 	public boolean validMove (Position init, Position finale) {
 		boolean isOk = false;
-
 		//mm ligne
 		if (init.x == finale.x) {
 			//vérifier si espace ou corde
@@ -241,6 +239,17 @@ public class PathFinder {
 		}
 
 		return false;
+	}
+
+	public void printMap () {
+		for (int i = 0; i < mapMatrice.length; ++ i) {
+			for (int j = 0; j < mapMatrice[i].length; ++ j) {
+				System.out.print (mapMatrice[i][j].z != Integer.MAX_VALUE ?
+				                  mapMatrice[i][j].z + " " :
+				                  "e ");
+			}
+			System.out.println ();
+		}
 	}
 
 	public void clearZMap () {
