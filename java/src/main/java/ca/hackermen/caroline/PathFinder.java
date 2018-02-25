@@ -8,11 +8,10 @@ public class PathFinder {
 	ArrayList<Position> path  = new ArrayList<> ();
 	Position            exit;
 	Position            player;
-	ArrayList<Position> coins;
-  char [][] mapMatrice;
+        char [][] mapMatrice;
   
-	public PathFinder(String[][] map) {
-    mapMatrice=map;
+	public PathFinder(char[][] map) {
+                mapMatrice=map;
 		posCoins(coins,map);
 		posExit();
 		posPlayer();
@@ -131,7 +130,7 @@ public class PathFinder {
 		around.add (new Position (p.x + 1, p.y, p.z));
 		around.add (p);
 
-		if (! (p.x + 1 > map.length)) {
+		if (! (p.x + 1 > mapMatrice.length)) {
 			around.add (new Position (p.x + 1, p.y, p.z + 1));
 		}
 
@@ -139,7 +138,7 @@ public class PathFinder {
 			around.add (new Position (p.x - 1, p.y, p.z + 1));
 		}
 
-		if (! (p.y + 1 > map.length)) {
+		if (! (p.y + 1 > mapMatrice.length)) {
 			around.add (new Position (p.x, p.y + 1, p.z + 1));
 		}
 
@@ -176,4 +175,43 @@ public class PathFinder {
 	public Position jackPot(ArrayList<Position> p) {
 		return null;
 	}
+        
+        public boolean validMove(Position init, Position finale) {
+            boolean isOk = false;
+            
+            //mm ligne
+            if(init.x == finale.x) {
+                //vérifier si espace ou corde
+                if (finale.c == ' ' || finale.c == '-' || finale.c == '$') {
+                    isOk = true;
+                }
+                //vérifier si non bloc
+                else if(finale.c == '@' || finale.c == '#') {
+                    isOk = false;
+                }
+                
+            }
+            //mm colonne
+            if(init.y == finale.y) {
+                //finale est plus bas
+                if(init.y > finale.y) 
+                {
+                    //ADD CODE TO FALL HERE...
+                }
+                //finale est plus haut
+                else    
+                {
+                    //vérifier si espace ou corde
+                    if (init.c == 'H' && (finale.c == 'H' || finale.c == ' ' || finale.c == '$' || finale.c == '-')) {
+                        isOk = true;
+                    }
+                    else {
+                        isOk = false;
+                    }
+                }
+                
+            }
+            
+            return isOk;
+        }
 }
