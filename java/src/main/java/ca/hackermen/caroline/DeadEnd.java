@@ -25,9 +25,9 @@ public class DeadEnd {
         boolean [] [] matDE = new boolean [mat.length] [mat[0].length];
         
         
-        for (int i = pos1.getY(); i < pos2.getY(); i++) {
+        for (int i = pos1.y; i < pos2.y; i++) {
             
-            for (int j = pos1.getX(); j < pos2.getX(); j++) {
+            for (int j = pos1.x; j < pos2.x; j++) {
                 
                 matDE [i][j] = true;
                 
