@@ -1,6 +1,8 @@
 package ca.umontreal.iro.hackathon.loderunner;
 
 import ca.hackermen.caroline.PathFinder;
+import ca.hackermen.caroline.Position;
+import java.util.ArrayList;
 
 /**
  *
@@ -50,9 +52,22 @@ public class Runner extends BasicRunner {
     public Move next(int x, int y) {
         System.out.println("Position du runner : (" + x + ", " + y + ")");
 
-        int direction = (int) (Math.random() * 4 + 1);
-
-        Direction dir = Direction.fromInt(direction);
+        Direction dir = Direction.NONE;
+        Position nextMove = pathFinder.getNextPos();
+        
+        if(x < nextMove.x) {
+            dir = Direction.RIGHT;
+        }
+        else if (x > nextMove.x){
+            dir = Direction.LEFT;
+        }
+        
+        if (y < nextMove.y){
+            dir = Direction.UP;
+        }
+        else if (y > nextMove.y){
+            dir = Direction.DOWN;
+        }
 
         return new Move(Event.MOVE, dir);
     }
