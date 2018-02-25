@@ -211,6 +211,10 @@ public class PathFinder {
 			//finale est plus bas
 			if (init.y > finale.y) {
 				//ADD CODE TO FALL HERE...
+                                
+                                if (finale.c == '#' || finale.c == '@') {
+                                    isOk = false;
+                                }
 			}
 			//finale est plus haut
 			else {
