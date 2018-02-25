@@ -10,7 +10,7 @@ import ca.hackermen.caroline.sim.Carunner;
 public class Runner extends BasicRunner {
 
 	// TODO : Remplacer ceci par votre clé secrète
-	public static final String ROOM = "caroline18";
+	public static final String ROOM = "caroline10";
 
 	/* Utilisez cette variable pour choisir le niveau de départ
 	 *
