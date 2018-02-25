@@ -17,7 +17,7 @@ public class Runner extends BasicRunner {
 	 * Notez: le niveau de départ sera 1 pour tout
 	 * le monde pendant la compétition :v)
 	 */
-	public static final int START_LEVEL = 1;
+	public static final int START_LEVEL = 4;
 
 	public PathFinder pathFinder;
 	public char[][]   mapMatrice;

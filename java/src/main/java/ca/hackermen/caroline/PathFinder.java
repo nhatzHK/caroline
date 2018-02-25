@@ -259,8 +259,24 @@ public class PathFinder {
 
 		if (init.x == finale.x) {
 
-			if (init.y > finale.y && init.c == 'H') {
-				return true;
+			if (init.y > finale.y) {
+				if (init.c == 'H') {
+					return true;
+				} else {
+					boolean rope = false;
+					for (int i = init.y; i > 0 && !rope; --i) {
+						if (mapMatrice[i][init.x].c == '-' && mapMatrice[i + 1
+							][init.x].c == ' ') {
+							rope = true;
+						}
+					}
+
+					if (rope) {
+						return true;
+					} else {
+						return false;
+					}
+				}
 			} else if (init.y < finale.y && finale.c == 'H')
 			{
 				return true;
